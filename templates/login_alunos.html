@@ -1,11 +1,219 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>EduCyber - Login dos alunos</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap');
+
+        :root {
+            --fundo: #0a0e1a;
+            --fundo-card: #121829;
+            --borda: #1f2a44;
+            --texto: #e2e8f0;
+            --texto-suave: #8892a8;
+            --destaque: #00ffcc;
+            --destaque-rgb: 0, 255, 204;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 24px;
+            background-color: var(--fundo);
+            background-image:
+                linear-gradient(rgba(10, 14, 26, 0.75), rgba(10, 14, 26, 0.75)),
+                url('/static/educyber_banner_escudo_cadeado.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 32px;
+
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--texto);
+        }
+
+        .texto {
+            margin: 0;
+            text-align: center;
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(1.1rem, 4.5vw, 2.2rem);
+            line-height: 1.4;
+            color: var(--destaque);
+            text-shadow: 0 0 10px var(--destaque);
+        }
+
+        .card {
+            width: 100%;
+            max-width: 420px;
+            padding: 36px 32px;
+            background: rgba(18, 24, 41, 0.88);
+            border: 2px solid var(--destaque);
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(var(--destaque-rgb), 0.35);
+        }
+
+        .card h2 {
+            margin: 0 0 28px;
+            text-align: center;
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(0.8rem, 3vw, 1rem);
+            line-height: 1.5;
+            font-weight: normal;
+            color: var(--texto);
+        }
+
+        .campo {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .campo label {
+            font-size: 0.95rem;
+            color: var(--texto-suave);
+        }
+
+        .campo input {
+            width: 100%;
+            padding: 14px 16px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1rem;
+            color: var(--texto);
+            background: var(--fundo);
+            border: 2px solid var(--borda);
+            border-radius: 8px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .campo input::placeholder {
+            color: var(--texto-suave);
+            opacity: 0.7;
+        }
+
+        .campo input:hover {
+            border-color: rgba(var(--destaque-rgb), 0.5);
+        }
+
+        .campo input:focus {
+            outline: none;
+            border-color: var(--destaque);
+            box-shadow: 0 0 10px rgba(var(--destaque-rgb), 0.5);
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            margin-top: 8px;
+            padding: 16px 28px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
+            color: var(--destaque);
+            background: transparent;
+            border: 2px solid var(--destaque);
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(var(--destaque-rgb), 0.4);
+            transition: all 0.3s ease;
+        }
+
+        @media (hover: hover) {
+            .btn:hover {
+                background: var(--destaque);
+                color: var(--fundo);
+                box-shadow: 0 0 20px var(--destaque), 0 0 40px rgba(var(--destaque-rgb), 0.5);
+                transform: translateY(-3px);
+            }
+        }
+
+        .btn:active {
+            transform: translateY(0) scale(0.97);
+        }
+
+        .btn:focus-visible,
+        .cadastro a:focus-visible,
+        .voltar:focus-visible {
+            outline: 2px solid var(--destaque);
+            outline-offset: 4px;
+        }
+
+        .cadastro {
+            margin: 24px 0 0;
+            text-align: center;
+            font-size: 0.95rem;
+            color: var(--texto-suave);
+        }
+
+        .cadastro a {
+            color: var(--destaque);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        .cadastro a:hover {
+            border-bottom-color: var(--destaque);
+        }
+
+        .voltar {
+            font-size: 0.95rem;
+            color: var(--texto-suave);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .voltar:hover {
+            color: var(--destaque);
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 28px 20px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                transition: none !important;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>TESTE2</h1>
+    <h1 class="texto">EduCyber 2.0</h1>
+
+    <main class="card">
+        <h2>Área do aluno</h2>
+
+        <form onsubmit="event.preventDefault()">
+            <div class="campo">
+                <label for="usuario">Matrícula ou e-mail</label>
+                <input type="text" id="usuario" name="usuario" placeholder="Digite sua matrícula" autocomplete="username">
+            </div>
+
+            <div class="campo">
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" name="senha" placeholder="Digite sua senha" autocomplete="current-password">
+            </div>
+
+            <button type="submit" class="btn">Entrar</button>
+        </form>
+
+        <p class="cadastro">Ainda não tem conta? <a href="#">Cadastre-se</a></p>
+    </main>
+
+    <a class="voltar" href="/">Voltar ao início</a>
 </body>
 </html>
