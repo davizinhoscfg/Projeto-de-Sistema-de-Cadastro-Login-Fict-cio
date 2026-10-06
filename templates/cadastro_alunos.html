@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduCyber - Login dos professores</title>
+    <title>EduCyber - Cadastro dos alunos</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap');
 
@@ -13,8 +13,8 @@
             --borda: #1f2a44;
             --texto: #e2e8f0;
             --texto-suave: #8892a8;
-            --destaque: #00b8ff;
-            --destaque-rgb: 0, 184, 255;
+            --destaque: #00ffcc;
+            --destaque-rgb: 0, 255, 204;
         }
 
         * {
@@ -195,23 +195,34 @@
     <h1 class="texto">EduCyber 2.0</h1>
 
     <main class="card">
-        <h2>Área do professor</h2>
+        <h2>Cadastro do aluno</h2>
 
         <form onsubmit="event.preventDefault()">
             <div class="campo">
-                <label for="usuario">E-mail institucional</label>
-                <input type="text" id="usuario" name="usuario" placeholder="Digite seu e-mail" autocomplete="username">
+                <label for="nome">Nome completo</label>
+                <input type="text" id="nome" name="nome" placeholder="Digite seu nome" autocomplete="name">
             </div>
-
+            <div class="campo">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" placeholder="Digite seu e-mail" autocomplete="email">
+            </div>
+            <div class="campo">
+                <label for="matricula">Matrícula</label>
+                <input type="text" id="matricula" name="matricula" placeholder="Digite sua matrícula" autocomplete="off">
+            </div>
             <div class="campo">
                 <label for="senha">Senha</label>
-                <input type="password" id="senha" name="senha" placeholder="Digite sua senha" autocomplete="current-password">
+                <input type="password" id="senha" name="senha" placeholder="Crie uma senha" autocomplete="new-password">
+            </div>
+            <div class="campo">
+                <label for="confirmar">Confirmar senha</label>
+                <input type="password" id="confirmar" name="confirmar" placeholder="Repita a senha" autocomplete="new-password">
             </div>
 
-            <button type="submit" class="btn">Entrar</button>
+            <button type="submit" class="btn">Cadastrar</button>
         </form>
 
-        <p class="cadastro">Ainda não tem conta? <a href="{{url_for('cadastro_professores')}}">Cadastre-se</a></p>
+        <p class="cadastro">Já tem conta? <a href="/login_alunos">Entrar</a></p>
     </main>
 
     <a class="voltar" href="/">Voltar ao início</a>

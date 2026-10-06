@@ -12,3 +12,11 @@ def login_professores():
 @app.route("/login_alunos")
 def login_alunos():
     return render_template("login_alunos.html")
+
+@app.route("/cadastro_professores")
+def cadastro_professores():
+    return render_template("cadastro_professores.html")
+
+@app.route("/cadastro_alunos")
+def cadastro_alunos():
+    return render_template("cadastro_alunos.html")
