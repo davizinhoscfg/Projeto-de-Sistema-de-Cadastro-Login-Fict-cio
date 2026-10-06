@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduCyber</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        :root {
+            --fundo: #0a0e1a;
+            --neon-ciano: #00ffcc;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background-color: var(--fundo);
+             
+            background-image: linear-gradient(rgba(10, 14, 26, 0.7), rgba(10, 14, 26, 0.7)),
+            url('/static/educyber_banner_escudo_cadeado.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+
+            /* centraliza título + botões no meio da tela */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        .texto {
+            margin: 0;
+            text-align: center;
+            font-size: clamp(1.2rem, 5vw, 2.5rem);
+            color: var(--neon-ciano);
+            text-shadow: 0 0 10px var(--neon-ciano);
+        }
+
+        .botoes {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
+            padding: 16px 28px;
+            color: var(--neon-ciano);
+            background: transparent;
+            border: 2px solid var(--neon-ciano);
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(0, 255, 204, 0.4);
+            transition: all 0.3s ease;
+            text-decoration: none;
+    display: inline-block;
+        }
+
+        @media (hover: hover) {
+            .btn:hover {
+                background: var(--neon-ciano);
+                color: var(--fundo);
+                box-shadow: 0 0 20px var(--neon-ciano), 0 0 40px rgba(0, 255, 204, 0.5);
+                transform: translateY(-3px);
+            }
+        }
+
+        .btn:active {
+            transform: translateY(0) scale(0.97);
+        }
+    </style>
+</head>
+<body>
+    <h1 class="texto">EduCyber 2.0</h1>
+    <div class="botoes">
+        <a class="btn" href="{{ url_for('login_professores') }}">Professores</a>
+        <a class="btn" href="{{ url_for('login_alunos') }}">Alunos</a>
+    </div>
+</body>
+</html>
