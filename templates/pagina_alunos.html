@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduCyber - Videoaulas</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap');
+
+        :root {
+            --fundo: #0a0e1a;
+            --fundo-card: #121829;
+            --borda: #1f2a44;
+            --texto: #e2e8f0;
+            --texto-suave: #8892a8;
+            --destaque: #00ffcc;
+            --destaque-rgb: 0, 255, 204;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 40px 24px;
+            background-color: var(--fundo);
+            background-image:
+                linear-gradient(rgba(10, 14, 26, 0.8), rgba(10, 14, 26, 0.8)),
+                url('/static/educyber_banner_escudo_cadeado.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--texto);
+        }
+
+        .cabecalho {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            text-align: center;
+        }
+
+        .texto {
+            margin: 0;
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(1.1rem, 4.5vw, 2.2rem);
+            line-height: 1.4;
+            color: var(--destaque);
+            text-shadow: 0 0 10px var(--destaque);
+        }
+
+        .subtitulo {
+            margin: 0;
+            font-size: 1.05rem;
+            color: var(--texto-suave);
+        }
+
+        /* ---------- grade de vídeos ---------- */
+        .grade {
+            width: 100%;
+            max-width: 1100px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 28px;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            background: rgba(18, 24, 41, 0.88);
+            border: 2px solid var(--destaque);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 12px rgba(var(--destaque-rgb), 0.3);
+            transition: all 0.3s ease;
+        }
+
+        @media (hover: hover) {
+            .card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 0 24px rgba(var(--destaque-rgb), 0.55);
+            }
+        }
+
+        .video {
+            aspect-ratio: 16 / 9;
+            width: 100%;
+            background: var(--fundo);
+        }
+
+        .video iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            display: block;
+        }
+
+        .video.vazio {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            text-align: center;
+            font-size: 0.95rem;
+            color: var(--texto-suave);
+            border-bottom: 2px dashed var(--borda);
+        }
+
+        .info {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .info h2 {
+            margin: 0;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.75rem;
+            font-weight: normal;
+            line-height: 1.6;
+            color: var(--texto);
+        }
+
+        .info p {
+            margin: 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--texto-suave);
+        }
+
+        .aviso {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: var(--texto-suave);
+        }
+
+        .voltar {
+            font-size: 0.95rem;
+            color: var(--texto-suave);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .voltar:hover {
+            color: var(--destaque);
+        }
+
+        .voltar:focus-visible {
+            outline: 2px solid var(--destaque);
+            outline-offset: 4px;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 28px 16px;
+            }
+            .grade {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="cabecalho">
+        <h1 class="texto">EduCyber 2.0</h1>
+        <p class="subtitulo">Videoaulas</p>
+    </header>
+
+    <main class="grade" id="grade"></main>
+
+    <a class="voltar" href="/">Voltar ao início</a>
+
+    <script>
+       
+        const VIDEOS = [
+            {
+                titulo: "Título do vídeo 1",
+                descricao: "Descrição curta do que o aluno vai aprender.",
+                link: "https://youtu.be/pZ-oEuWMszs"
+            },
+            {
+                titulo: "Título do vídeo 2",
+                descricao: "Descrição curta do que o aluno vai aprender.",
+                link: "https://youtu.be/6okxuiiHx2w"
+            },
+            {
+                titulo: "Título do vídeo 3",
+                descricao: "Descrição curta do que o aluno vai aprender.",
+                link: "https://youtu.be/MGkWSAnoDOI"
+            }
+        ]
+
+
+        function pegarIdYoutube(link) {
+            try {
+                const url = new URL(link);
+                let id = null;
+                if (url.hostname.includes("youtu.be")) {
+                    id = url.pathname.slice(1);
+                } else if (url.searchParams.get("v")) {
+                    id = url.searchParams.get("v");
+                } else {
+                    const m = url.pathname.match(/\/(embed|shorts)\/([^/?]+)/);
+                    id = m ? m[2] : null;
+                }
+                return id && /^[\w-]{11}$/.test(id) ? id : null;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function criarCard(video) {
+            const card = document.createElement("article");
+            card.className = "card";
+
+            const area = document.createElement("div");
+            area.className = "video";
+
+            const id = pegarIdYoutube(video.link);
+            if (id) {
+                const iframe = document.createElement("iframe");
+                iframe.src = "https://www.youtube.com/embed/" + id;
+                iframe.title = video.titulo;
+                iframe.loading = "lazy";
+                iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+                iframe.allowFullscreen = true;
+                area.appendChild(iframe);
+            } else {
+                area.classList.add("vazio");
+                area.textContent = "Cole o link do YouTube no campo link";
+            }
+
+            const info = document.createElement("div");
+            info.className = "info";
+
+            const h2 = document.createElement("h2");
+            h2.textContent = video.titulo;
+
+            const p = document.createElement("p");
+            p.textContent = video.descricao;
+
+            info.append(h2, p);
+            card.append(area, info);
+            return card;
+        }
+
+        const grade = document.getElementById("grade");
+
+        if (VIDEOS.length === 0) {
+            const aviso = document.createElement("p");
+            aviso.className = "aviso";
+            aviso.textContent = "Nenhum vídeo por aqui ainda.";
+            grade.appendChild(aviso);
+        } else {
+            VIDEOS.forEach(function (video) {
+                grade.appendChild(criarCard(video));
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, request, redirect, url_for
-from werkzeug.security import generate_password_hash
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash
+from werkzeug.security import generate_password_hash, check_password_hash
 from models import db, Aluno, Professor
 views = Blueprint("views", __name__)
 
@@ -7,13 +7,38 @@ views = Blueprint("views", __name__)
 def main_page():
     return render_template("index.html")
 
+@views.route("/pagina_alunos")
+def pagina_alunos():
+    return render_template("pagina_alunos.html")
+
+@views.route("/pagina_professores")
+def pagina_professores():
+    return render_template("pagina_professores.html")
+
 @views.route("/login_professores")
 def login_professores():
     return render_template("login_professores.html")
 
-@views.route("/login_alunos")
+@views.route("/login_alunos", methods=["GET", "POST"])
 def login_alunos():
+    if request.method == "POST":
+        email=request.form["usuario"]
+        senha=request.form["senha"]
+
+        aluno = Aluno.query.filter_by(email=email).first()
+
+        if aluno and check_password_hash(aluno.senha_hash, senha):
+            session["usuario_id"] = aluno.id
+            session["tipo"] = "aluno"
+            return redirect(url_for("views.pagina_alunos"))
+
+        flash("E-mail ou senha incorretos")
+        return redirect(url_for("views.login_alunos"))
+
+    
     return render_template("login_alunos.html")
+
+
 
 @views.route("/cadastro_professores", methods = ["GET", "POST"])
 def cadastro_professores():
@@ -32,7 +57,7 @@ def cadastro_professores():
         db.session.add(novo_professor)
         db.session.commit() 
 
-        return "Certinho papai"   
+        return redirect(url_for("views.pagina_professores"))   
 
     return render_template("cadastro_professores.html")
 
@@ -54,7 +79,7 @@ def cadastro_alunos():
         db.session.add(novo_aluno)
         db.session.commit()
 
-        return "Deu certo pai"
+        return redirect(url_for("views.pagina_alunos"))
     
     return render_template("cadastro_alunos.html")
         

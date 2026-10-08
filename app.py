@@ -4,6 +4,7 @@ from views import views
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///banco.db"
+app.config["SECRET_KEY"] = "eu-amo-minha-namorada"
 
 db.init_app(app)
 app.register_blueprint(views)

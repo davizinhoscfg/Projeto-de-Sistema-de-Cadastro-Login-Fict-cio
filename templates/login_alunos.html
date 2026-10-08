@@ -192,15 +192,19 @@
     </style>
 </head>
 <body>
+    {% for categoria, mensagem in get_flashed_messages(with_categories=true) %}
+    <p class="{{ categoria }}">{{ mensagem }}</p>
+    {% endfor %}
+    
     <h1 class="texto">EduCyber 2.0</h1>
 
     <main class="card">
         <h2>Área do aluno</h2>
 
-        <form onsubmit="event.preventDefault()">
+        <form method="POST" action="{{url_for('views.login_alunos')}}">
             <div class="campo">
                 <label for="usuario">Matrícula ou e-mail</label>
-                <input type="text" id="usuario" name="usuario" placeholder="Digite sua matrícula" autocomplete="username">
+                <input type="text" id="usuario" name="usuario" placeholder="Digite seu email" autocomplete="username">
             </div>
 
             <div class="campo">
