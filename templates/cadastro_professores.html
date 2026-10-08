@@ -197,7 +197,7 @@
     <main class="card">
         <h2>Cadastro do professor</h2>
 
-        <form onsubmit="event.preventDefault()">
+        <form method="POST" action="{{ url_for('views.cadastro_professores') }}">
             <div class="campo">
                 <label for="nome">Nome completo</label>
                 <input type="text" id="nome" name="nome" placeholder="Digite seu nome" autocomplete="name">

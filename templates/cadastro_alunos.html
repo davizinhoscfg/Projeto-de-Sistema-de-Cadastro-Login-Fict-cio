@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+    <script src="cadastro_alunos.css"></script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -197,7 +198,7 @@
     <main class="card">
         <h2>Cadastro do aluno</h2>
 
-        <form onsubmit="event.preventDefault()">
+        <form method = "POST" action="{{ url_for('views.cadastro_alunos') }}">
             <div class="campo">
                 <label for="nome">Nome completo</label>
                 <input type="text" id="nome" name="nome" placeholder="Digite seu nome" autocomplete="name">
